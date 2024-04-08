@@ -1,4 +1,4 @@
-# app.py
+# main.py
 import streamlit as st
 import os
 import numpy as np
@@ -45,13 +45,13 @@ def train_model():
     X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
     model = Sequential()
-    model.add(LSTM(units=100, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+    model.add(LSTM(units=100, return_sequences=True, input_shape=(X_train.shape[1], 1), kernel_initializer='glorot_uniform'))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=True))
+    model.add(LSTM(units=100, return_sequences=True, kernel_initializer='glorot_uniform'))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=True))
+    model.add(LSTM(units=100, return_sequences=True, kernel_initializer='glorot_uniform'))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=False))
+    model.add(LSTM(units=100, return_sequences=False, kernel_initializer='glorot_uniform'))
     model.add(Dropout(0.2))
     model.add(Dense(units=1))
 
