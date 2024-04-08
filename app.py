@@ -1,4 +1,4 @@
-# main.py
+# app.py
 import streamlit as st
 import os
 import numpy as np
@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model, Sequential
 from keras.layers import Dense, LSTM, Dropout
+from keras.initializers import Orthogonal
 import joblib
 import matplotlib.pyplot as plt
 
@@ -45,15 +46,15 @@ def train_model():
     X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
     model = Sequential()
-    model.add(LSTM(units=100, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+    model.add(LSTM(units=100, return_sequences=True, input_shape=(X_train.shape[1], 1), kernel_initializer=Orthogonal()))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=True))
+    model.add(LSTM(units=100, return_sequences=True, kernel_initializer=Orthogonal()))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=True))
+    model.add(LSTM(units=100, return_sequences=True, kernel_initializer=Orthogonal()))
     model.add(Dropout(0.2))
-    model.add(LSTM(units=100, return_sequences=False))
+    model.add(LSTM(units=100, return_sequences=False, kernel_initializer=Orthogonal()))
     model.add(Dropout(0.2))
-    model.add(Dense(units=1))
+    model.add(Dense(units=1, kernel_initializer=Orthogonal()))
 
     optimizer = 'adam'
     model.compile(optimizer=optimizer, loss="mean_squared_error")
